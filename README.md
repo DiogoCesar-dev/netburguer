@@ -49,27 +49,15 @@ Models: Produto, Pedido</br>
 Templates: Para cliente e admin, com herança e uso de filtros customizados</br>
 Views: Autenticação, CRUD, Carrinho, Relatórios, Finalização via WhatsApp
 
-2. Modelagem de Banco de Dados</br>
-Entidades Principais
 
-Produto</br>
-Nome</br>
-Descrição</br>
-Preço</br>
-Pedido</br>
-Dados do cliente</br>
-Totais financeiros</br>
-Itens serializados em JSON</br>
-Data de criação</br>
-Agregações utilizadas para relatórios
 
-3. Sistema de Autenticação
+2. Sistema de Autenticação
 
 Login e logout via Django Auth</br>
 Decoradores login_required protegendo rotas sensíveis</br>
 Redirecionamentos definidos no settings
 
-4. Funcionalidades Avançadas
+3. Funcionalidades Avançadas
 
 Sessões para carrinho</br>
 Método de cálculo com regras de negócio (desconto combo, total bruto, total final)</br>
