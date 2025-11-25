@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Carrinho{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-bold text-preto-texto mb-2">Seu Carrinho</h2>
+    <p class="text-cinza-texto mb-6">Revise os itens antes de finalizar o pedido.</p>
+    <hr class="border-gray-200 mb-8">
+
+    {% if not carrinho %}
+        <div class="p-6 bg-yellow-50 rounded-lg border border-yellow-200 text-amarelo-principal font-semibold text-lg">
+            Seu carrinho está vazio. Continue navegando no 
+            <a href="{% url 'menu_cardapio' %}" class="text-vermelho-principal hover:underline font-bold">cardápio</a>.
+        </div>
+    {% else %}
+        <div class="overflow-x-auto mb-8 shadow-md rounded-xl">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-amarelo-principal text-preto-texto uppercase text-sm font-bold tracking-wider">
+                    <tr>
+                        <th class="py-3 px-4 rounded-tl-xl">Item</th>
+                        <th class="py-3 px-4">Preço</th>
+                        <th class="py-3 px-4">Quantidade</th>
+                        <th class="py-3 px-4">Total</th>
+                        <th class="py-3 px-4 rounded-tr-xl"></th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    {% for item in carrinho %}
+                        <tr>
+                            <td class="py-4 px-4 font-semibold text-preto-texto">{{ item.nome }}</td>
+                            <td class="py-4 px-4 text-sm text-cinza-texto">R$ {{ item.preco|floatformat:2 }}</td>
+                            <td class="py-4 px-4 w-40">
+                                <form action="{% url 'atualizar_carrinho' item.id %}" method="post" class="flex items-center space-x-2">
+                                    {% csrf_token %}
+                                    <input 
+                                        type="number" 
+                                        name="quantidade" 
+                                        value="{{ item.quantidade }}" 
+                                        min="0" 
+                                        class="w-20 px-2 py-1 border border-gray-300 rounded-lg text-center focus:outline-none focus:border-amarelo-principal"
+                                        style="max-width: 80px;"
+                                    >
+                                    <button 
+                                        type="submit" 
+                                        class="bg-vermelho-principal text-white px-3 py-1 rounded-lg font-semibold text-xs 
+                                               hover:bg-red-700 transition duration-300 transform hover:-translate-y-0.5 shadow-sm"
+                                    >
+                                        Atualizar
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="py-4 px-4 text-lg font-extrabold text-vermelho-principal">
+                                R$ {{ item.total|floatformat:2 }}
+                            </td>
+                            <td class="py-4 px-4">
+                                <form action="{% url 'atualizar_carrinho' item.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantidade" value="0">
+                                    <button 
+                                        type="submit" 
+                                        class="bg-red-700 text-white px-3 py-1 rounded-lg font-semibold text-xs 
+                                               hover:bg-red-800 transition duration-300 transform hover:-translate-y-0.5 shadow-sm"
+                                    >
+                                        Remover
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resumo-pedido w-full lg:w-96 ml-auto p-6 rounded-xl border-2 border-dashed border-amarelo-principal bg-yellow-50 shadow-md space-y-3">
+            <h3 class="text-xl font-bold mb-4 pb-2 border-b border-amarelo-principal/50 text-preto-texto">Resumo</h3>
+            
+            <div class="flex justify-between text-base">
+                <span class="text-cinza-texto">Subtotal:</span>
+                <strong class="font-bold text-preto-texto">R$ {{ total_bruto|floatformat:2 }}</strong>
+            </div>
+
+            {% if tem_desconto %}
+                <div class="flex justify-between text-base">
+                    <span class="text-cinza-texto">Desconto combo (10%):</span>
+                    <p class="font-bold text-verde-principal">-R$ {{ desconto_aplicado|floatformat:2 }}</p>
+                </div>
+            {% else %}
+                <p class="text-sm italic text-cinza-texto pt-2">
+                    Faltam <span class="font-semibold text-vermelho-principal">{{ faltam_para_combo }}</span> produto(s) para desbloquear 10% de desconto (mínimo {{ combo_minimo }} itens).
+                </p>
+            {% endif %}
+            
+            <hr class="border-gray-300">
+
+            <div class="flex justify-between text-2xl font-extrabold pt-2">
+                <span>Total:</span>
+                <span class="text-vermelho-principal">R$ {{ total_final|floatformat:2 }}</span>
+            </div>
+            
+            <a href="{% url 'finalizar_pedido' %}" 
+               class="btn btn-finalizar w-full py-3 mt-4 text-lg font-bold uppercase rounded-lg shadow-lg 
+                      bg-verde-principal text-white hover:bg-green-700 transition duration-300 transform hover:-translate-y-0.5 block text-center"
+            >
+                Finalizar Pedido
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

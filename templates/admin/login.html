@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Login Administrativo{% endblock %}
+
+{% block content %}
+    <div class="max-w-md mx-auto mt-10 md:mt-20 p-8 rounded-xl bg-white border border-gray-100 shadow-2xl">
+        
+        <h2 class="text-3xl font-bold text-preto-texto mb-2 text-center">Acesso Restrito</h2>
+        <p class="text-cinza-texto mb-8 text-center">Informe suas credenciais de administrador.</p>
+        
+        <form method="post" action="{% url 'admin_login' %}" class="space-y-6">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username" class="block mb-2 font-semibold text-sm text-preto-texto">Usuário</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
+                    required
+                    value="diogo" 
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="block mb-2 font-semibold text-sm text-preto-texto">Senha</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
+                    required
+                    value="1234" 
+                >
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full py-3 mt-4 text-lg font-bold uppercase rounded-lg shadow-lg 
+                       bg-vermelho-principal text-white hover:bg-red-700 transition duration-300 transform hover:-translate-y-0.5"
+            >
+                Entrar
+            </button>
+
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

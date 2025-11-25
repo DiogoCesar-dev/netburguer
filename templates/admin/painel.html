@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-bold text-preto-texto mb-2">Painel Administrativo</h2>
+    <p class="text-cinza-texto mb-6">Gerencie produtos, acompanhe pedidos e visualize relatórios.</p>
+    <hr class="border-gray-200 mb-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        
+        <a href="{% url 'produto_listar' %}" 
+           class="p-6 rounded-xl block text-preto-texto shadow-lg transition duration-300 border-l-8 
+                  bg-red-50 border-vermelho-principal 
+                  hover:transform hover:-translate-y-1 hover:shadow-xl"
+        >
+            <h3 class="text-xl font-extrabold mb-1">Produtos</h3>
+            <p class="text-sm text-gray-600">Cadastre, edite ou remova itens do cardápio.</p>
+        </a>
+
+        <a href="{% url 'historico_pedidos' %}" 
+           class="p-6 rounded-xl block text-preto-texto shadow-lg transition duration-300 border-l-8 
+                  bg-yellow-50 border-amarelo-principal 
+                  hover:transform hover:-translate-y-1 hover:shadow-xl"
+        >
+            <h3 class="text-xl font-extrabold mb-1">Histórico de Pedidos</h3>
+            <p class="text-sm text-gray-600">Filtre pedidos por período e acompanhe o status dos envios.</p>
+        </a>
+
+        <a href="{% url 'relatorio_vendas' %}" 
+           class="p-6 rounded-xl block text-preto-texto shadow-lg transition duration-300 border-l-8 
+                  bg-green-50 border-verde-principal 
+                  hover:transform hover:-translate-y-1 hover:shadow-xl"
+        >
+            <h3 class="text-xl font-extrabold mb-1">Relatórios Mensais</h3>
+            <p class="text-sm text-gray-600">Veja quantos pedidos foram recebidos e o total arrecadado.</p>
+        </a>
+    </div>
+{% endblock %}
