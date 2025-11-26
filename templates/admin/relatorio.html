@@ -2,48 +2,71 @@
 {% block title %}Relatório Mensal{% endblock %}
 
 {% block content %}
-    <h2 class="text-3xl font-bold text-preto-texto mb-2">Relatório de Vendas</h2>
-    <p class="text-cinza-texto mb-6 text-lg">Mês de referência: 
-        <strong class="text-vermelho-principal">{{ mes_referencia }}</strong>
-    </p>
-    <hr class="border-gray-200 mb-8">
 
+    <!-- TÍTULO -->
+    <div class="mb-6">
+        <h2 class="text-4xl font-black text-preto-texto">Relatório de Vendas</h2>
+        <p class="text-cinza-texto text-lg mt-1">
+            Mês de referência:
+            <strong class="text-vermelho-principal font-extrabold">{{ mes_referencia }}</strong>
+        </p>
+    </div>
+
+    <hr class="border-gray-200 mb-10">
+
+    <!-- ERRO -->
     {% if erro %}
-        <div class="p-4 rounded-lg font-semibold bg-red-100 text-red-700 border border-red-300">
+        <div class="p-4 rounded-xl font-semibold bg-red-100 text-red-700 border border-red-300 shadow">
             {{ erro }}
         </div>
+
     {% else %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            
-            <div class="p-6 rounded-xl shadow-xl border-l-8 border-amarelo-principal bg-yellow-50">
-                <h3 class="text-base font-semibold uppercase text-gray-600 mb-2 tracking-wider">Total de Pedidos</h3>
-                <p class="text-5xl font-extrabold text-amarelo-principal kpi-valor">{{ qtd_pedidos }}</p>
+
+        <!-- KPIs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
+
+            <!-- TOTAL DE PEDIDOS -->
+            <div class="p-8 rounded-2xl shadow-xl border-l-8 border-amarelo-principal bg-yellow-50">
+                <h3 class="text-sm font-semibold uppercase text-gray-600 tracking-wider mb-2">Total de Pedidos</h3>
+                <p class="text-6xl font-black text-amarelo-principal kpi-valor">{{ qtd_pedidos }}</p>
             </div>
 
-            <div class="p-6 rounded-xl shadow-xl border-l-8 border-verde-principal bg-verde-principal text-white">
-                <h3 class="text-base font-semibold uppercase mb-2 tracking-wider opacity-90">Valor Arrecadado</h3>
-                <p class="text-5xl font-extrabold kpi-valor">R$ {{ total_mensal|floatformat:2 }}</p>
+            <!-- VALOR ARRECADADO -->
+            <div class="p-8 rounded-2xl shadow-xl border-l-8 border-green-600 bg-verde-principal text-white">
+                <h3 class="text-sm font-semibold uppercase tracking-wider mb-2 opacity-80">Arrecadação Total</h3>
+                <p class="text-6xl font-black kpi-valor">R$ {{ total_mensal|floatformat:2 }}</p>
             </div>
+
         </div>
 
-        <h3 class="text-2xl font-bold text-preto-texto mt-10 mb-6">Pedidos Detalhados</h3>
-        
+        <!-- TÍTULO TABELA -->
+        <h3 class="text-3xl font-extrabold text-preto-texto mb-6">Pedidos Detalhados</h3>
+
         {% if pedidos_detalhe %}
-            <div class="overflow-x-auto shadow-md rounded-xl">
+
+            <!-- TABELA -->
+            <div class="overflow-x-auto shadow-lg rounded-2xl">
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-amarelo-principal text-preto-texto uppercase text-sm font-bold tracking-wider">
+                    <thead class="bg-amarelo-principal text-preto-texto text-sm uppercase font-bold tracking-wide">
                         <tr>
-                            <th class="py-3 px-4 rounded-tl-xl whitespace-nowrap">Data</th>
-                            <th class="py-3 px-4">Cliente</th>
-                            <th class="py-3 px-4 rounded-tr-xl whitespace-nowrap text-right">Total Final</th>
+                            <th class="py-4 px-5 rounded-tl-2xl whitespace-nowrap">Data</th>
+                            <th class="py-4 px-5">Cliente</th>
+                            <th class="py-4 px-5 rounded-tr-2xl whitespace-nowrap text-right">Total Final</th>
                         </tr>
                     </thead>
+
                     <tbody class="bg-white divide-y divide-gray-100">
                         {% for pedido in pedidos_detalhe %}
                             <tr class="hover:bg-gray-50 transition duration-150">
-                                <td class="py-3 px-4 text-sm whitespace-nowrap">{{ pedido.data_criacao|date:"d/m/Y H:i" }}</td>
-                                <td class="py-3 px-4 font-semibold">{{ pedido.nome_cliente }}</td>
-                                <td class="py-3 px-4 text-right text-lg font-extrabold text-vermelho-principal whitespace-nowrap">
+                                <td class="py-4 px-5 text-sm whitespace-nowrap">
+                                    {{ pedido.data_criacao|date:"d/m/Y H:i" }}
+                                </td>
+
+                                <td class="py-4 px-5 font-semibold">
+                                    {{ pedido.nome_cliente }}
+                                </td>
+
+                                <td class="py-4 px-5 text-right text-lg font-black text-vermelho-principal whitespace-nowrap">
                                     R$ {{ pedido.total_final|floatformat:2 }}
                                 </td>
                             </tr>
@@ -51,10 +74,15 @@
                     </tbody>
                 </table>
             </div>
+
         {% else %}
-            <div class="p-4 rounded-lg font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300">
+
+            <!-- SEM PEDIDOS -->
+            <div class="p-4 rounded-xl font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300 shadow">
                 Nenhum pedido encontrado para o mês de referência.
             </div>
+
         {% endif %}
     {% endif %}
+
 {% endblock %}

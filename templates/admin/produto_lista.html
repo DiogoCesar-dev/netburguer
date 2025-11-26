@@ -2,73 +2,105 @@
 {% block title %}Produtos{% endblock %}
 
 {% block content %}
-    <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
-        <h2 class="text-3xl font-bold text-preto-texto">Gestão de Produtos</h2>
-        <a href="{% url 'produto_criar' %}" 
-           class="py-2 px-4 font-bold rounded-lg shadow-md 
-                  bg-verde-principal text-white hover:bg-green-700 transition duration-300 transform hover:-translate-y-0.5"
+
+    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-preto-texto">Gestão de Produtos</h2>
+            <p class="text-cinza-texto mt-1">Gerencie itens, combos e mantenha seu cardápio atualizado.</p>
+        </div>
+
+        <a href="{% url 'produto_criar' %}"
+           class="py-3 px-5 font-bold rounded-xl shadow-lg
+                  bg-verde-principal text-white hover:bg-green-700
+                  transition duration-300 hover:-translate-y-0.5"
         >
             + Novo Produto
         </a>
     </div>
-    <hr class="border-gray-200 mb-8">
 
-    <div class="overflow-x-auto shadow-md rounded-xl">
+    <div class="h-1 w-24 bg-vermelho-principal rounded-full mb-10"></div>
+
+    <div class="overflow-x-auto border border-gray-200 rounded-2xl shadow-xl bg-white">
         <table class="w-full text-left border-collapse">
-            <thead class="bg-amarelo-principal text-preto-texto uppercase text-sm font-bold tracking-wider">
+            
+            <!-- Cabeçalho -->
+            <thead class="bg-amarelo-principal/90 text-preto-texto uppercase text-sm font-bold tracking-wider">
                 <tr>
-                    <th class="py-3 px-4 rounded-tl-xl w-12">ID</th>
-                    <th class="py-3 px-4">Nome</th>
-                    <th class="py-3 px-4 whitespace-nowrap text-right">Preço</th>
-                    <th class="py-3 px-4 w-24">Tipo</th>
-                    <th class="py-3 px-4 rounded-tr-xl w-40">Ações</th>
+                    <th class="py-3.5 px-5 rounded-tl-2xl w-14">ID</th>
+                    <th class="py-3.5 px-5">Nome</th>
+                    <th class="py-3.5 px-5 text-right">Preço</th>
+                    <th class="py-3.5 px-5 w-28">Tipo</th>
+                    <th class="py-3.5 px-5 rounded-tr-2xl w-48">Ações</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-100">
+
+            <!-- Corpo -->
+            <tbody class="divide-y divide-gray-100 text-gray-700">
+
                 {% for produto in produtos %}
                     <tr class="hover:bg-gray-50 transition duration-150">
-                        <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ produto.id }}</td>
-                        <td class="py-3 px-4 font-semibold">{{ produto.nome }}</td>
-                        <td class="py-3 px-4 text-right text-lg font-extrabold text-vermelho-principal whitespace-nowrap">
+                        
+                        <td class="py-3.5 px-5 font-semibold">{{ produto.id }}</td>
+                        
+                        <td class="py-3.5 px-5 text-preto-texto font-bold">
+                            {{ produto.nome }}
+                        </td>
+                        
+                        <td class="py-3.5 px-5 text-right text-lg font-extrabold text-vermelho-principal">
                             R$ {{ produto.preco|floatformat:2 }}
                         </td>
-                        <td class="py-3 px-4 text-sm">
+                        
+                        <td class="py-3.5 px-5">
                             {% if produto.is_combo %}
-                                <span class="text-amarelo-principal font-semibold">Combo</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-black bg-yellow-100 text-yellow-700">
+                                    COMBO
+                                </span>
                             {% else %}
-                                Item
+                                <span class="px-2 py-1 rounded-md text-xs font-black bg-gray-100 text-gray-700">
+                                    ITEM
+                                </span>
                             {% endif %}
                         </td>
-                        <td class="py-3 px-4 whitespace-nowrap space-x-2">
-                            <a href="{% url 'produto_editar' produto.id %}" 
-                               class="py-1 px-3 font-semibold rounded-lg text-xs shadow-sm 
-                                      bg-vermelho-principal text-white hover:bg-red-700 transition duration-300 transform hover:-translate-y-0.5"
+                        
+                        <td class="py-3.5 px-5 whitespace-nowrap flex gap-2">
+
+                            <a href="{% url 'produto_editar' produto.id %}"
+                               class="py-1.5 px-4 text-xs font-bold rounded-lg shadow-md
+                                      bg-vermelho-principal text-white hover:bg-red-700
+                                      transition duration-300 hover:-translate-y-0.5"
                             >
                                 Editar
                             </a>
-                            <form action="{% url 'produto_remover' produto.id %}" 
-                                  method="post" 
-                                  class="inline-block" 
+
+                            <form action="{% url 'produto_remover' produto.id %}"
+                                  method="post"
                                   onsubmit="return confirm('Remover {{ produto.nome }}? Esta ação é irreversível.');"
                             >
                                 {% csrf_token %}
-                                <button type="submit" 
-                                        class="py-1 px-3 font-semibold rounded-lg text-xs shadow-sm 
-                                               bg-red-700 text-white hover:bg-red-800 transition duration-300 transform hover:-translate-y-0.5"
+                                <button type="submit"
+                                        class="py-1.5 px-4 text-xs font-bold rounded-lg shadow-md
+                                               bg-red-700 text-white hover:bg-red-800
+                                               transition duration-300 hover:-translate-y-0.5"
                                 >
                                     Remover
                                 </button>
                             </form>
+
                         </td>
+
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5" class="py-4 px-4 text-center text-cinza-texto italic">
-                            Nenhum produto cadastrado.
+                        <td colspan="5"
+                            class="py-6 px-5 text-center text-cinza-texto italic text-sm"
+                        >
+                            Nenhum produto cadastrado ainda.
                         </td>
                     </tr>
                 {% endfor %}
+
             </tbody>
         </table>
     </div>
+
 {% endblock %}

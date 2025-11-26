@@ -2,86 +2,120 @@
 {% block title %}Finalizar Pedido{% endblock %}
 
 {% block content %}
-    <h2 class="text-3xl font-bold text-preto-texto mb-2">Finalizar Pedido</h2>
-    <p class="text-cinza-texto mb-6">Informe seu nome e endereço para gerar a mensagem e enviar pelo WhatsApp.</p>
-    <hr class="border-gray-200 mb-8">
 
-    {% if erro %}
-        <div class="p-4 rounded-lg font-semibold bg-red-100 text-red-700 border border-red-300 mb-6">
-            {{ erro }}
-        </div>
-    {% endif %}
+<h2 class="text-4xl font-extrabold text-preto-texto mb-3 tracking-tight">
+    Finalizar Pedido
+</h2>
 
-    <div class="flex flex-wrap lg:flex-nowrap gap-8">
-        <div class="w-full lg:w-2/3">
-            <form action="{% url 'finalizar_pedido' %}" method="post" class="space-y-6">
-                {% csrf_token %}
+<p class="text-cinza-texto text-lg mb-6">
+    Preencha seus dados para gerar a mensagem e concluir via WhatsApp.
+</p>
 
-                <div class="form-group">
-                    <label for="nome" class="block mb-2 font-semibold text-preto-texto text-sm">Nome completo</label>
-                    <input 
-                        type="text" 
-                        id="nome" 
-                        name="nome" 
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
-                        required 
-                        value="{{ dados_cliente.nome|default_if_none:'' }}"
-                    >
-                </div>
+<div class="w-full h-[2px] bg-gradient-to-r from-vermelho-principal/50 to-transparent mb-10"></div>
 
-                <div class="form-group">
-                    <label for="endereco" class="block mb-2 font-semibold text-preto-texto text-sm">Endereço completo</label>
-                    <textarea 
-                        id="endereco" 
-                        name="endereco" 
-                        rows="4" 
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
-                        required
-                    >{{ dados_cliente.endereco|default_if_none:'' }}</textarea>
-                </div>
-
-                <p class="text-cinza-texto text-sm italic pt-2">
-                    Ao enviar, você será redirecionado para o WhatsApp com o pedido formatado.
-                </p>
-
-                <button 
-                    type="submit" 
-                    class="w-full py-3 mt-4 text-lg font-bold uppercase rounded-lg shadow-lg 
-                           bg-verde-principal text-white hover:bg-green-700 transition duration-300 transform hover:-translate-y-0.5"
-                >
-                    Enviar pedido via WhatsApp
-                </button>
-            </form>
-        </div>
-
-        <div class="w-full lg:w-1/3 p-6 rounded-xl border-2 border-dashed border-amarelo-principal bg-yellow-50 
-                    h-fit lg:sticky lg:top-24 shadow-md space-y-3">
-            <h3 class="text-xl font-bold mb-4 pb-2 border-b border-amarelo-principal/50 text-preto-texto">Resumo do Pedido</h3>
-            
-            <div class="flex justify-between text-base">
-                <span class="text-cinza-texto">Subtotal:</span>
-                <span class="font-semibold text-preto-texto">R$ {{ total_bruto|floatformat:2 }}</span>
-            </div>
-            
-            {% if desconto_aplicado > 0 %}
-                <div class="flex justify-between text-base">
-                    <span class="text-cinza-texto">Desconto:</span>
-                    <span class="font-semibold text-verde-principal">-R$ {{ desconto_aplicado|floatformat:2 }}</span>
-                </div>
-            {% endif %}
-            
-            <hr class="border-gray-300">
-
-            <div class="flex justify-between text-xl font-extrabold pt-2">
-                <span>Total:</span>
-                <span class="text-vermelho-principal">R$ {{ total_final|floatformat:2 }}</span>
-            </div>
-            
-            <a href="{% url 'carrinho_detalhe' %}" 
-               class="inline-block mt-4 text-vermelho-principal font-semibold text-sm hover:underline transition duration-150"
-            >
-                &lt; Voltar ao carrinho
-            </a>
-        </div>
+{% if erro %}
+    <div class="p-4 mb-8 rounded-xl font-semibold bg-red-100 text-red-700 border border-red-300 shadow">
+        {{ erro }}
     </div>
+{% endif %}
+
+<div class="flex flex-wrap lg:flex-nowrap gap-10">
+
+    <!-- FORMULÁRIO -->
+    <div class="w-full lg:w-2/3">
+        <form action="{% url 'finalizar_pedido' %}" method="post" class="space-y-8">
+            {% csrf_token %}
+
+            <!-- Nome -->
+            <div>
+                <label for="nome" class="block mb-2 font-semibold text-preto-texto text-sm">
+                    Nome completo
+                </label>
+                <input 
+                    type="text" 
+                    id="nome" 
+                    name="nome" 
+                    required
+                    value="{{ dados_cliente.nome|default_if_none:'' }}"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm
+                           focus:outline-none focus:ring-2 focus:ring-vermelho-principal/40 
+                           focus:border-vermelho-principal transition duration-150"
+                >
+            </div>
+
+            <!-- Endereço -->
+            <div>
+                <label for="endereco" class="block mb-2 font-semibold text-preto-texto text-sm">
+                    Endereço completo
+                </label>
+                <textarea 
+                    id="endereco" 
+                    name="endereco" 
+                    rows="4" 
+                    required
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-vermelho-principal/40 
+                           focus:border-vermelho-principal transition duration-150"
+                >{{ dados_cliente.endereco|default_if_none:'' }}</textarea>
+            </div>
+
+            <p class="text-cinza-texto text-sm italic">
+                Após enviar, o WhatsApp abrirá automaticamente com seu pedido.
+            </p>
+
+            <button 
+                type="submit"
+                class="w-full py-3 mt-4 text-lg font-extrabold tracking-wide uppercase rounded-xl 
+                       shadow-lg bg-green-700 text-white 
+                       hover:bg-green-800 hover:-translate-y-0.5 transition-all duration-300"
+            >
+                Enviar pedido via WhatsApp
+            </button>
+        </form>
+    </div>
+
+    <!-- RESUMO -->
+    <div class="w-full lg:w-1/3 p-6 rounded-2xl border-2 border-dashed border-amarelo-principal 
+                bg-yellow-50 h-fit lg:sticky lg:top-24 shadow-xl space-y-4">
+
+        <h3 class="text-xl font-extrabold text-preto-texto mb-4 pb-3 border-b border-amarelo-principal/40">
+            Resumo do Pedido
+        </h3>
+
+        <!-- Subtotal -->
+        <div class="flex justify-between text-base">
+            <span class="text-cinza-texto">Subtotal:</span>
+            <span class="font-semibold text-preto-texto">
+                R$ {{ total_bruto|floatformat:2 }}
+            </span>
+        </div>
+
+        {% if desconto_aplicado > 0 %}
+            <div class="flex justify-between text-base">
+                <span class="text-cinza-texto">Desconto:</span>
+                <span class="font-semibold text-verde-principal">
+                    -R$ {{ desconto_aplicado|floatformat:2 }}
+                </span>
+            </div>
+        {% endif %}
+
+        <hr class="border-gray-300">
+
+        <!-- Total -->
+        <div class="flex justify-between text-2xl font-extrabold pt-2">
+            <span>Total:</span>
+            <span class="text-vermelho-principal tracking-tight">
+                R$ {{ total_final|floatformat:2 }}
+            </span>
+        </div>
+
+        <a href="{% url 'carrinho_detalhe' %}" 
+           class="inline-block mt-4 text-vermelho-principal font-semibold text-sm hover:underline">
+            &lt; Voltar ao carrinho
+        </a>
+
+    </div>
+
+</div>
+
 {% endblock %}

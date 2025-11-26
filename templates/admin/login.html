@@ -2,42 +2,47 @@
 {% block title %}Login Administrativo{% endblock %}
 
 {% block content %}
-    <div class="max-w-md mx-auto mt-10 md:mt-20 p-8 rounded-xl bg-white border border-gray-100 shadow-2xl">
-        
-        <h2 class="text-3xl font-bold text-preto-texto mb-2 text-center">Acesso Restrito</h2>
-        <p class="text-cinza-texto mb-8 text-center">Informe suas credenciais de administrador.</p>
-        
+    <div class="max-w-md mx-auto mt-16 md:mt-24 p-10 rounded-2xl bg-white border border-gray-200 shadow-2xl transition">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-preto-texto">Acesso Restrito</h2>
+            <p class="text-cinza-texto mt-2 text-base">Informe suas credenciais de administrador.</p>
+        </div>
+
         <form method="post" action="{% url 'admin_login' %}" class="space-y-6">
             {% csrf_token %}
 
-            <div class="form-group">
+            <div>
                 <label for="username" class="block mb-2 font-semibold text-sm text-preto-texto">Usuário</label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50
+                           focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/40
+                           transition duration-150"
                     required
-                    value="diogo" 
                 >
             </div>
 
-            <div class="form-group">
+            <div>
                 <label for="password" class="block mb-2 font-semibold text-sm text-preto-texto">Senha</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/30 transition duration-150" 
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-50
+                           focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/40
+                           transition duration-150"
                     required
-                    value="1234" 
                 >
             </div>
 
-            <button 
-                type="submit" 
-                class="w-full py-3 mt-4 text-lg font-bold uppercase rounded-lg shadow-lg 
-                       bg-vermelho-principal text-white hover:bg-red-700 transition duration-300 transform hover:-translate-y-0.5"
+            <button
+                type="submit"
+                class="w-full py-3 mt-6 text-lg font-bold rounded-xl uppercase tracking-wide shadow-lg
+                       bg-vermelho-principal text-white
+                       hover:bg-red-700 hover:-translate-y-0.5 transition duration-300"
             >
                 Entrar
             </button>

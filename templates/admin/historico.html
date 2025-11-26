@@ -2,44 +2,49 @@
 {% block title %}Histórico de Pedidos{% endblock %}
 
 {% block content %}
-    <h2 class="text-3xl font-bold text-preto-texto mb-2">Histórico de Pedidos</h2>
-    <p class="text-cinza-texto mb-6">Use os filtros abaixo para refinar o período desejado.</p>
-    <hr class="border-gray-200 mb-8">
+    <div class="mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-preto-texto mb-2">Histórico de Pedidos</h2>
+        <p class="text-cinza-texto text-base">Use os filtros abaixo para refinar o período desejado.</p>
+    </div>
 
-    <form method="get" class="flex flex-wrap items-end gap-4 p-4 border border-gray-200 rounded-lg mb-8 bg-white shadow-sm">
-        
-        <div class="flex flex-col flex-grow min-w-[150px]">
+    <form method="get"
+          class="flex flex-wrap items-end gap-6 p-6 border border-gray-200 rounded-xl mb-12 bg-white shadow-lg">
+
+        <div class="flex flex-col flex-grow min-w-[180px]">
             <label for="data_inicio" class="mb-2 font-semibold text-sm text-preto-texto">Data Início</label>
-            <input 
-                type="date" 
-                id="data_inicio" 
-                name="data_inicio" 
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-amarelo-principal focus:ring-1 focus:ring-amarelo-principal/30" 
+            <input
+                type="date"
+                id="data_inicio"
+                name="data_inicio"
                 value="{{ filtros.data_inicio }}"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50
+                       focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/40 transition"
             >
         </div>
 
-        <div class="flex flex-col flex-grow min-w-[150px]">
+        <div class="flex flex-col flex-grow min-w-[180px]">
             <label for="data_fim" class="mb-2 font-semibold text-sm text-preto-texto">Data Fim</label>
-            <input 
-                type="date" 
-                id="data_fim" 
-                name="data_fim" 
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-amarelo-principal focus:ring-1 focus:ring-amarelo-principal/30" 
+            <input
+                type="date"
+                id="data_fim"
+                name="data_fim"
                 value="{{ filtros.data_fim }}"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50
+                       focus:outline-none focus:border-amarelo-principal focus:ring-2 focus:ring-amarelo-principal/40 transition"
             >
         </div>
 
-        <div class="flex space-x-3 mt-auto">
-            <button 
-                type="submit" 
-                class="py-2 px-4 font-bold rounded-lg shadow-md 
+        <div class="flex space-x-3 mt-4 md:mt-auto">
+            <button
+                type="submit"
+                class="py-2.5 px-6 font-semibold rounded-lg shadow-md
                        bg-vermelho-principal text-white hover:bg-red-700 transition duration-300 transform hover:-translate-y-0.5"
             >
                 Filtrar
             </button>
-            <a href="{% url 'historico_pedidos' %}" 
-               class="py-2 px-4 font-bold rounded-lg shadow-md 
+
+            <a href="{% url 'historico_pedidos' %}"
+               class="py-2.5 px-6 font-semibold rounded-lg shadow-md
                       bg-red-700 text-white hover:bg-red-800 transition duration-300 transform hover:-translate-y-0.5"
             >
                 Limpar
@@ -48,37 +53,48 @@
     </form>
 
     {% if erro %}
-        <div class="p-4 rounded-lg font-semibold bg-red-100 text-red-700 border border-red-300">
+        <div class="p-4 rounded-lg font-semibold bg-red-100 text-red-700 border border-red-300 shadow-sm">
             {{ erro }}
         </div>
+
     {% elif mensagem_vazio %}
-        <div class="p-4 rounded-lg font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300">
+        <div class="p-4 rounded-lg font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300 shadow-sm">
             {{ mensagem_vazio }}
         </div>
+
     {% else %}
-        <div class="overflow-x-auto shadow-md rounded-xl">
+        <div class="overflow-x-auto shadow-xl rounded-2xl border border-gray-200">
             <table class="w-full text-left border-collapse">
-                <thead class="bg-amarelo-principal text-preto-texto uppercase text-sm font-bold tracking-wider">
+                <thead class="bg-amarelo-principal text-preto-texto uppercase text-sm font-extrabold tracking-wide">
                     <tr>
-                        <th class="py-3 px-4 rounded-tl-xl">ID</th>
-                        <th class="py-3 px-4 whitespace-nowrap">Data</th>
-                        <th class="py-3 px-4 whitespace-nowrap">Cliente</th>
+                        <th class="py-3 px-4 rounded-tl-2xl">ID</th>
+                        <th class="py-3 px-4">Data</th>
+                        <th class="py-3 px-4">Cliente</th>
                         <th class="py-3 px-4">Endereço</th>
-                        <th class="py-3 px-4 whitespace-nowrap text-right">Total Bruto</th>
-                        <th class="py-3 px-4 whitespace-nowrap text-right">Desconto</th>
-                        <th class="py-3 px-4 whitespace-nowrap text-right rounded-tr-xl">Total Final</th>
+                        <th class="py-3 px-4 text-right">Total Bruto</th>
+                        <th class="py-3 px-4 text-right">Desconto</th>
+                        <th class="py-3 px-4 text-right rounded-tr-2xl">Total Final</th>
                     </tr>
                 </thead>
+
                 <tbody class="bg-white divide-y divide-gray-100">
                     {% for pedido in pedidos %}
                         <tr class="hover:bg-gray-50 transition duration-150">
                             <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ pedido.id }}</td>
-                            <td class="py-3 px-4 text-sm whitespace-nowrap">{{ pedido.data_criacao|date:"d/m/Y H:i" }}</td>
+                            <td class="py-3 px-4 text-sm whitespace-nowrap">
+                                {{ pedido.data_criacao|date:"d/m/Y H:i" }}
+                            </td>
                             <td class="py-3 px-4 font-semibold">{{ pedido.nome_cliente }}</td>
                             <td class="py-3 px-4 text-sm max-w-xs truncate">{{ pedido.endereco_entrega }}</td>
-                            <td class="py-3 px-4 text-right text-cinza-texto whitespace-nowrap">R$ {{ pedido.total_bruto|floatformat:2 }}</td>
-                            <td class="py-3 px-4 text-right text-green-700 font-medium whitespace-nowrap">R$ {{ pedido.desconto_aplicado|floatformat:2 }}</td>
-                            <td class="py-3 px-4 text-right text-lg font-extrabold text-vermelho-principal whitespace-nowrap">R$ {{ pedido.total_final|floatformat:2 }}</td>
+                            <td class="py-3 px-4 text-right text-cinza-texto whitespace-nowrap">
+                                R$ {{ pedido.total_bruto|floatformat:2 }}
+                            </td>
+                            <td class="py-3 px-4 text-right text-green-700 font-medium whitespace-nowrap">
+                                R$ {{ pedido.desconto_aplicado|floatformat:2 }}
+                            </td>
+                            <td class="py-3 px-4 text-right text-lg font-extrabold text-vermelho-principal whitespace-nowrap">
+                                R$ {{ pedido.total_final|floatformat:2 }}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
