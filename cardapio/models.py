@@ -14,7 +14,6 @@ class Produto(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome do Item")
     descricao = models.TextField(verbose_name="Descrição Detalhada")
     preco = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Preço Unitário")
-    is_combo = models.BooleanField(default=False, verbose_name="É um Combo?")
 
     class Meta:
         verbose_name = "Produto"

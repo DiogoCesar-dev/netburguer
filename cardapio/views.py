@@ -226,7 +226,6 @@ def produto_criar(request):
             nome=request.POST.get('nome'),
             descricao=request.POST.get('descricao'),
             preco=preco,
-            is_combo=request.POST.get('is_combo') == 'on',
         )
         messages.success(request, 'Produto cadastrado com sucesso.')
         return redirect('produto_listar')
@@ -249,7 +248,6 @@ def produto_editar(request, produto_id):
         produto.nome = request.POST.get('nome')
         produto.descricao = request.POST.get('descricao')
         produto.preco = preco
-        produto.is_combo = request.POST.get('is_combo') == 'on'
         produto.save()
 
         messages.success(request, 'Produto atualizado com sucesso.')
