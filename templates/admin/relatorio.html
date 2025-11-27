@@ -6,10 +6,14 @@
     <!-- TÍTULO -->
     <div class="mb-6">
         <h2 class="text-4xl font-black text-preto-texto">Relatório de Vendas</h2>
-        <p class="text-cinza-texto text-lg mt-1">
+        <p class="text-cinza-texto mb-4 text-lg mt-1">
             Mês de referência:
             <strong class="text-vermelho-principal font-extrabold">{{ mes_referencia }}</strong>
         </p>
+         <a href="{% url 'admin_painel' %}" 
+           class="py-2 px-4 font-bold mb-4 rounded-xl shadow-lg bg-verde-principal text-white hover:bg-green-700 transition duration-300 hover:-translate-y-0.5">
+           ← Voltar
+        </a>
     </div>
 
     <hr class="border-gray-200 mb-10">
